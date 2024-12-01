@@ -1,0 +1,21 @@
+on:
+  pull_request_target:
+    types:
+      - edited
+    branches:
+      - "main"
+
+permissions:
+  contents: write
+  pull-requests: write
+
+name: release-please
+
+jobs:
+  changelog-preview:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: list commits
+        run: |
+          git log --pretty='format:message: %s%nbody: %b%n---' ${GITHUB_BASE_REF}..${GITHUB_HEAD_REF}
