@@ -2,6 +2,8 @@ on:
   pull_request_target:
     types:
       - edited
+      - opened
+      - synchronize
     branches:
       - "main"
 
@@ -16,6 +18,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - name: list commits
         run: |
-          git log --pretty='format:message: %s%nbody: %b%n---' ${GITHUB_BASE_REF}..${GITHUB_HEAD_REF}
+          git log --pretty='format:message: %s%nbody: %b%n---' origin/${GITHUB_BASE_REF}..origin/${GITHUB_HEAD_REF}
